@@ -2,7 +2,7 @@
   "labels": {
     "paste": "Lim inn",
     "selectAll": "Vel alt",
-    "multiSelect": "",
+    "multiSelect": "Legg til element i utval",
     "moveCanvas": "Flytt lerretet",
     "copy": "Kopier",
     "copyAsPng": "Kopier til utklippstavla som PNG",
@@ -25,10 +25,15 @@
     "sloppiness": "Ujamnheit",
     "opacity": "Synlegheit",
     "textAlign": "Tekstjustering",
+    "edges": "Kanter",
+    "sharp": "Skarp",
+    "round": "Rund",
     "fontSize": "Skriftstorleik",
     "fontFamily": "Skrifttype",
     "onlySelected": "Kun valde",
     "withBackground": "Inkluder bakgrunn",
+    "exportEmbedScene": "",
+    "exportEmbedScene_details": "",
     "addWatermark": "Legg til «Laga med Excalidraw»",
     "handDrawn": "Handteikna",
     "normal": "Normal",
@@ -65,7 +70,18 @@
     "group": "Grupper utval",
     "ungroup": "Avgrupper utval",
     "collaborators": "Samarbeidarar",
-    "toggleGridMode": "Sla på/av rutenett"
+    "toggleGridMode": "Sla på/av rutenett",
+    "addToLibrary": "Legg til i bibliotek",
+    "removeFromLibrary": "Fjern frå bibliotek",
+    "libraryLoadingMessage": "Laster bibliotek...",
+    "loadingScene": "Laster scene...",
+    "align": "",
+    "alignTop": "",
+    "alignBottom": "",
+    "alignLeft": "",
+    "alignRight": "",
+    "centerVertically": "",
+    "centerHorizontally": ""
   },
   "buttons": {
     "clearReset": "Tilbakestill lerretet",
@@ -74,6 +90,7 @@
     "exportToSvg": "Eksporter til SVG",
     "copyToClipboard": "Kopier til utklippstavla",
     "copyPngToClipboard": "Kopier PNG til utklippstavla",
+    "scale": "",
     "save": "Lagre",
     "saveAs": "Lagre som",
     "load": "Opne",
@@ -92,18 +109,25 @@
     "roomDialog": "Start sanntids-samarbeid",
     "createNewRoom": "Lag nytt rom",
     "toggleFullScreen": "Slå på/av fullskjerm",
+    "toggleDarkMode": "Skru av/på skumringsmodus",
     "toggleZenMode": "Slå på/av zen-modus",
     "exitZenMode": "Avslutt zen-modus"
   },
   "alerts": {
     "clearReset": "Dette vil tømme lerretet. Er du sikker?",
     "couldNotCreateShareableLink": "Kunne ikkje lage delingslenke.",
+    "couldNotCreateShareableLinkTooBig": "",
     "couldNotLoadInvalidFile": "Kunne ikkje laste inn ugyldig fil",
     "importBackendFailed": "Importering av backend feila.",
     "cannotExportEmptyCanvas": "Kan ikkje eksportere eit tomt lerret.",
     "couldNotCopyToClipboard": "Kunne ikkje kopiere til utklippstavla. Prøv med nettlesaren Chrome.",
     "decryptFailed": "Kunne ikkje dekryptere data.",
-    "uploadedSecurly": "Opplastinga er kryptert og er ikkje mogleg å lese av Excalidraw-serveren eller tredjepartar."
+    "uploadedSecurly": "Opplastinga er kryptert og er ikkje mogleg å lese av Excalidraw-serveren eller tredjepartar.",
+    "loadSceneOverridePrompt": "Innlasting av ekstern teikning erstattar ditt eksisterande innhald. Ynskjer du å fortsette?",
+    "errorLoadingLibrary": "Det oppstod ein feil under lastinga av tredjepartsbibliotek.",
+    "confirmAddLibrary": "Dette vil legge til {{numShapes}} form(er) i biblioteket ditt. Er du sikker?",
+    "imageDoesNotContainScene": "",
+    "cannotRestoreFromImage": ""
   },
   "toolBar": {
     "selection": "Vel",
@@ -114,6 +138,7 @@
     "arrow": "Pil",
     "line": "Linje",
     "text": "Tekst",
+    "library": "Bibliotek",
     "lock": "Hald fram med valt verktøy"
   },
   "headings": {
@@ -124,12 +149,18 @@
   "hints": {
     "linearElement": "Klikk for å starte linje med fleire punkt, eller drag for ei enkel linje",
     "freeDraw": "Klikk og drag, slepp når du er ferdig",
+    "text": "Tips: du kan òg leggje til tekst ved å dobbeltklikke kor som helst med utvalgsverktyet",
     "linearElementMulti": "Klikk på siste punkt eller trykk Escape eller Enter for å fullføre",
     "resize": "Du kan halde fram med forholdet ved å trykke SHIFT medan du endrar storleik,\ntrykk ALT for å endre storleiken frå midten",
     "rotate": "Du kan låse vinklane ved å halde SHIFT medan du roterer",
     "lineEditor_info": "Dobbeltklikk eller trykk Enter for å redigere punkt",
-    "lineEditor_pointSelected": "",
+    "lineEditor_pointSelected": "Trykk på Slett for å fjerne punktet, CtrlOrCmd+D for å duplisere, eller dra for å flytte",
     "lineEditor_nothingSelected": "Vel eit punkt å flytte eller fjerne, eller hald Alt og klikk for å legge til nye punkt"
+  },
+  "canvasError": {
+    "cannotShowPreview": "",
+    "canvasTooBig": "",
+    "canvasTooBigTip": ""
   },
   "errorSplash": {
     "headingMain_pre": "Ein feil oppstod. Prøv ",
@@ -150,7 +181,6 @@
     "button_startSession": "Start økt",
     "button_stopSession": "Stopp økt",
     "desc_inProgressIntro": "Sanntids-samarbeidsøkt er no i gang.",
-    "desc_persistenceWarning": "Ver merksam på at scene-data vert delte på tvers av samarbeidspartnarar ved P2P-metoden, og er ikkje lagra på serveren vår. Dette betyr at viss alle koplar frå, mistar du data med mindre du eksporterer dei til ei fil eller ei delbar lenke.",
     "desc_shareLink": "Del denne lenka med dei du vil samarbeide med:",
     "desc_exitSession": "Dersom du avsluttar økta blir du kopla frå rommet, men du kan halde fram med å arbeide med scena lokalt. Ver merksam på at dette ikkje vil påverke andre personar, og desse vil framleis ha moglegheit til å samarbeide på deira eigen versjon."
   },
@@ -172,7 +202,8 @@
     "github": "Funne eit problem? Send inn",
     "textNewLine": "Legg til ny linje (tekst)",
     "textFinish": "Fullfør redigering (tekst)",
-    "zoomToFit": "Zoom for å sjå alle elementa"
+    "zoomToFit": "Zoom for å sjå alle elementa",
+    "preventBinding": "Hindre pilkobling"
   },
   "encrypted": {
     "tooltip": "Teikningane dine er ende-til-ende-krypterte slik at Excalidraw sine serverar aldri får sjå dei."

@@ -1,9 +1,10 @@
 import { KEYS } from "../keys";
 import { isWritableElement, getFontString } from "../utils";
-import { globalSceneState } from "../scene";
+import Scene from "../scene/Scene";
 import { isTextElement } from "./typeChecks";
 import { CLASSES } from "../constants";
 import { ExcalidrawElement } from "./types";
+import { AppState } from "../types";
 
 const normalizeText = (text: string) => {
   return (
@@ -19,32 +20,35 @@ const getTransform = (
   width: number,
   height: number,
   angle: number,
-  zoom: number,
+  appState: AppState,
 ) => {
+  const { zoom, offsetTop, offsetLeft } = appState;
   const degree = (180 * angle) / Math.PI;
-  return `translate(${(width * (zoom - 1)) / 2}px, ${
-    (height * (zoom - 1)) / 2
+  // offsets must be multiplied by 2 to account for the division by 2 of
+  //  the whole expression afterwards
+  return `translate(${((width - offsetLeft * 2) * (zoom - 1)) / 2}px, ${
+    ((height - offsetTop * 2) * (zoom - 1)) / 2
   }px) scale(${zoom}) rotate(${degree}deg)`;
 };
 
 export const textWysiwyg = ({
   id,
-  zoom,
+  appState,
   onChange,
   onSubmit,
-  onCancel,
   getViewportCoords,
+  element,
 }: {
   id: ExcalidrawElement["id"];
-  zoom: number;
+  appState: AppState;
   onChange?: (text: string) => void;
   onSubmit: (text: string) => void;
-  onCancel: () => void;
   getViewportCoords: (x: number, y: number) => [number, number];
+  element: ExcalidrawElement;
 }) => {
   function updateWysiwygStyle() {
-    const updatedElement = globalSceneState.getElement(id);
-    if (isTextElement(updatedElement)) {
+    const updatedElement = Scene.getScene(element)?.getElement(id);
+    if (updatedElement && isTextElement(updatedElement)) {
       const [viewportX, viewportY] = getViewportCoords(
         updatedElement.x,
         updatedElement.y,
@@ -68,11 +72,12 @@ export const textWysiwyg = ({
           updatedElement.width,
           updatedElement.height,
           angle,
-          zoom,
+          appState,
         ),
         textAlign: textAlign,
         color: updatedElement.strokeColor,
         opacity: updatedElement.opacity / 100,
+        filter: "var(--appearance-filter)",
       });
     }
   }
@@ -84,6 +89,9 @@ export const textWysiwyg = ({
   editable.dataset.type = "wysiwyg";
   // prevent line wrapping on Safari
   editable.wrap = "off";
+  editable.className = `excalidraw ${
+    appState.appearance === "dark" ? "Appearance_dark" : ""
+  }`;
 
   Object.assign(editable.style, {
     position: "fixed",
@@ -125,15 +133,12 @@ export const textWysiwyg = ({
   };
 
   const stopEvent = (event: Event) => {
+    event.preventDefault();
     event.stopPropagation();
   };
 
   const handleSubmit = () => {
-    if (editable.value) {
-      onSubmit(normalizeText(editable.value));
-    } else {
-      onCancel();
-    }
+    onSubmit(normalizeText(editable.value));
     cleanup();
   };
 
@@ -185,7 +190,7 @@ export const textWysiwyg = ({
   };
 
   // handle updates of textElement properties of editing element
-  const unbindUpdate = globalSceneState.addCallback(() => {
+  const unbindUpdate = Scene.getScene(element)!.addCallback(() => {
     updateWysiwygStyle();
     editable.focus();
   });
@@ -197,7 +202,10 @@ export const textWysiwyg = ({
   //  device keyboard is opened.
   window.addEventListener("resize", updateWysiwygStyle);
   window.addEventListener("pointerdown", onPointerDown);
-  window.addEventListener("wheel", stopEvent, true);
+  window.addEventListener("wheel", stopEvent, {
+    passive: false,
+    capture: true,
+  });
   document.body.appendChild(editable);
   editable.focus();
   editable.select();

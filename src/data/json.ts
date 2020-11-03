@@ -4,6 +4,8 @@ import { cleanAppStateForExport } from "../appState";
 
 import { fileOpen, fileSave } from "browser-nativefs";
 import { loadFromBlob } from "./blob";
+import { Library } from "./library";
+import { MIME_TYPES } from "../constants";
 
 export const serializeAsJSON = (
   elements: readonly ExcalidrawElement[],
@@ -24,29 +26,70 @@ export const serializeAsJSON = (
 export const saveAsJSON = async (
   elements: readonly ExcalidrawElement[],
   appState: AppState,
-  fileHandle: any,
 ) => {
   const serialized = serializeAsJSON(elements, appState);
   const blob = new Blob([serialized], {
     type: "application/json",
   });
-  const name = `${appState.name}.excalidraw`;
-  (window as any).handle = await fileSave(
+
+  const fileHandle = await fileSave(
     blob,
     {
-      fileName: name,
+      fileName: appState.name,
       description: "Excalidraw file",
-      extensions: ["excalidraw"],
+      extensions: [".excalidraw"],
     },
-    fileHandle || null,
+    appState.fileHandle,
+  );
+
+  return { fileHandle };
+};
+
+export const loadFromJSON = async (localAppState: AppState) => {
+  const blob = await fileOpen({
+    description: "Excalidraw files",
+    extensions: [".json", ".excalidraw", ".png", ".svg"],
+    mimeTypes: ["application/json", "image/png", "image/svg+xml"],
+  });
+  return loadFromBlob(blob, localAppState);
+};
+
+export const isValidLibrary = (json: any) => {
+  return (
+    typeof json === "object" &&
+    json &&
+    json.type === "excalidrawlib" &&
+    json.version === 1
   );
 };
 
-export const loadFromJSON = async () => {
+export const saveLibraryAsJSON = async () => {
+  const library = await Library.loadLibrary();
+  const serialized = JSON.stringify(
+    {
+      type: "excalidrawlib",
+      version: 1,
+      library,
+    },
+    null,
+    2,
+  );
+  const fileName = "library.excalidrawlib";
+  const blob = new Blob([serialized], {
+    type: MIME_TYPES.excalidrawlib,
+  });
+  await fileSave(blob, {
+    fileName,
+    description: "Excalidraw library file",
+    extensions: [".excalidrawlib"],
+  });
+};
+
+export const importLibraryFromJSON = async () => {
   const blob = await fileOpen({
-    description: "Excalidraw files",
-    extensions: ["json", "excalidraw"],
+    description: "Excalidraw library files",
+    extensions: [".json", ".excalidrawlib"],
     mimeTypes: ["application/json"],
   });
-  return loadFromBlob(blob);
+  Library.importLibrary(blob);
 };

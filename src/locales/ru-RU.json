@@ -2,8 +2,8 @@
   "labels": {
     "paste": "Вставить",
     "selectAll": "Выбрать все",
-    "multiSelect": "",
-    "moveCanvas": "",
+    "multiSelect": "Добавить элемент к выбору",
+    "moveCanvas": "Переместить холст",
     "copy": "Копировать",
     "copyAsPng": "Скопировать в буфер обмена как PNG",
     "copyAsSvg": "Скопировать в буфер обмена как SVG",
@@ -18,17 +18,22 @@
     "background": "Фон",
     "fill": "Заливка",
     "strokeWidth": "Толщина штриха",
-    "strokeStyle": "",
-    "strokeStyle_solid": "",
-    "strokeStyle_dashed": "",
-    "strokeStyle_dotted": "",
+    "strokeStyle": "Стиль обводки",
+    "strokeStyle_solid": "Сплошная",
+    "strokeStyle_dashed": "Штриховая",
+    "strokeStyle_dotted": "Пунктирная",
     "sloppiness": "Стиль обводки",
     "opacity": "Непрозрачность",
     "textAlign": "Выравнивание текста",
+    "edges": "Края",
+    "sharp": "Острые",
+    "round": "Скругленные",
     "fontSize": "Размер шрифта",
     "fontFamily": "Семейство шрифтов",
     "onlySelected": "Только выбранные",
     "withBackground": "С фоном",
+    "exportEmbedScene": "",
+    "exportEmbedScene_details": "",
     "addWatermark": "Добавить \"Сделано с Excalidraw\"",
     "handDrawn": "Нарисованный от руки",
     "normal": "Обычный",
@@ -62,10 +67,21 @@
     "name": "Имя",
     "yourName": "Ваше имя",
     "madeWithExcalidraw": "Сделано в Excalidraw",
-    "group": "",
-    "ungroup": "",
+    "group": "Сгруппировать выделение",
+    "ungroup": "Разделить выделение",
     "collaborators": "Сотрудники",
-    "toggleGridMode": ""
+    "toggleGridMode": "Переключить режим сетки",
+    "addToLibrary": "Добавить в библиотеку",
+    "removeFromLibrary": "Удалить из библиотеки",
+    "libraryLoadingMessage": "Загрузка библиотеки...",
+    "loadingScene": "Загрузка сцены...",
+    "align": "",
+    "alignTop": "",
+    "alignBottom": "",
+    "alignLeft": "",
+    "alignRight": "",
+    "centerVertically": "",
+    "centerHorizontally": ""
   },
   "buttons": {
     "clearReset": "Очистить холст и сбросить цвет фона",
@@ -74,6 +90,7 @@
     "exportToSvg": "Экспорт в SVG",
     "copyToClipboard": "Скопировать в буфер обмена",
     "copyPngToClipboard": "Скопировать PNG в буфер обмена",
+    "scale": "Шкала",
     "save": "Сохранить",
     "saveAs": "Сохранить как",
     "load": "Загрузить",
@@ -92,28 +109,36 @@
     "roomDialog": "Начать совместную работу",
     "createNewRoom": "Создать новую комнату",
     "toggleFullScreen": "Переключить полноэкранный режим",
+    "toggleDarkMode": "Переключить тёмную тему",
     "toggleZenMode": "Переключить режим концентрации внимания",
     "exitZenMode": "Выключить режим концентрации внимания"
   },
   "alerts": {
     "clearReset": "Это очистит весь холст. Вы уверены?",
     "couldNotCreateShareableLink": "Не удалось создать общедоступную ссылку.",
+    "couldNotCreateShareableLinkTooBig": "",
     "couldNotLoadInvalidFile": "Не удалось загрузить недопустимый файл",
     "importBackendFailed": "Не удалось импортировать из бэкэнда.",
     "cannotExportEmptyCanvas": "Не может экспортировать пустой холст.",
     "couldNotCopyToClipboard": "Не удалось скопировать в буфер обмена. Попробуйте использовать веб-браузер Chrome.",
     "decryptFailed": "Не удалось декодировать данные.",
-    "uploadedSecurly": "Загружаемые данные защищена сквозным шифрованием, что означает, что сервер Excalidraw и третьи стороны не могут прочитать содержимое."
+    "uploadedSecurly": "Загружаемые данные защищена сквозным шифрованием, что означает, что сервер Excalidraw и третьи стороны не могут прочитать содержимое.",
+    "loadSceneOverridePrompt": "",
+    "errorLoadingLibrary": "",
+    "confirmAddLibrary": "",
+    "imageDoesNotContainScene": "",
+    "cannotRestoreFromImage": ""
   },
   "toolBar": {
     "selection": "Выделение области",
-    "draw": "",
+    "draw": "Свободное рисование",
     "rectangle": "Прямоугольник",
     "diamond": "Ромб",
     "ellipse": "Эллипс",
     "arrow": "Cтрелка",
     "line": "Линия",
     "text": "Текст",
+    "library": "Библиотека",
     "lock": "Сохранять выбранный инструмент активным после рисования"
   },
   "headings": {
@@ -123,13 +148,19 @@
   },
   "hints": {
     "linearElement": "Нажмите, чтобы начать несколько точек, перетащите для одной линии",
-    "freeDraw": "",
+    "freeDraw": "Нажмите и перетаскивайте, отпустите по завершении",
+    "text": "",
     "linearElementMulti": "Кликните на последней точке или нажмите Escape или Enter чтобы закончить",
     "resize": "Вы можете ограничить пропорции, удерживая SHIFT во время изменения размеров,\nудерживайте ALT чтобы изменить размер из центра",
     "rotate": "Вы можете ограничить углы, удерживая SHIFT во время вращения",
-    "lineEditor_info": "",
+    "lineEditor_info": "Дважды кликните или нажмите Enter, чтобы редактировать точки",
     "lineEditor_pointSelected": "",
     "lineEditor_nothingSelected": ""
+  },
+  "canvasError": {
+    "cannotShowPreview": "",
+    "canvasTooBig": "",
+    "canvasTooBigTip": ""
   },
   "errorSplash": {
     "headingMain_pre": "Возникла ошибка. Попробуйте ",
@@ -150,7 +181,6 @@
     "button_startSession": "Начать сессию",
     "button_stopSession": "Закончить сессию",
     "desc_inProgressIntro": "Совместная сессия теперь активна.",
-    "desc_persistenceWarning": "",
     "desc_shareLink": "Поделитесь этой ссылкой со всеми участниками:",
     "desc_exitSession": ""
   },
@@ -161,24 +191,25 @@
     "title": "Сочетания клавиш",
     "shapes": "Фигуры",
     "or": "или",
-    "click": "",
-    "drag": "",
+    "click": "нажать",
+    "drag": "перетащить",
     "curvedArrow": "Изогнутая стрелка",
     "curvedLine": "Изогнутая линия",
     "editor": "Редактор",
     "view": "Просмотр",
     "blog": "Прочитайте наш блог",
-    "howto": "",
-    "github": "",
+    "howto": "Следуйте нашим инструкциям",
+    "github": "Нашли проблему? Отправьте",
     "textNewLine": "Добавить новую строку (текст)",
-    "textFinish": "",
-    "zoomToFit": ""
+    "textFinish": "Закончить редактирование (текст)",
+    "zoomToFit": "",
+    "preventBinding": ""
   },
   "encrypted": {
     "tooltip": ""
   },
   "charts": {
     "noNumericColumn": "",
-    "tooManyColumns": ""
+    "tooManyColumns": "Вы вставили таблицу с более чем двумя столбцами."
   }
 }

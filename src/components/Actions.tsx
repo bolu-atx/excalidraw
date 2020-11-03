@@ -2,7 +2,13 @@ import React from "react";
 import { AppState } from "../types";
 import { ExcalidrawElement } from "../element/types";
 import { ActionManager } from "../actions/manager";
-import { hasBackground, hasStroke, hasText, getTargetElement } from "../scene";
+import {
+  hasBackground,
+  hasStroke,
+  canChangeSharpness,
+  hasText,
+  getTargetElement,
+} from "../scene";
 import { t } from "../i18n";
 import { SHAPES } from "../shapes";
 import { ToolButton } from "./ToolButton";
@@ -50,6 +56,11 @@ export const SelectedShapeActions = ({
         </>
       )}
 
+      {(canChangeSharpness(elementType) ||
+        targetElements.some((element) => canChangeSharpness(element.type))) && (
+        <>{renderAction("changeSharpness")}</>
+      )}
+
       {(hasText(elementType) ||
         targetElements.some((element) => hasText(element.type))) && (
         <>
@@ -72,12 +83,29 @@ export const SelectedShapeActions = ({
           {renderAction("bringForward")}
         </div>
       </fieldset>
+
+      {targetElements.length > 1 && (
+        <fieldset>
+          <legend>{t("labels.align")}</legend>
+          <div className="buttonList">
+            {renderAction("alignLeft")}
+            {renderAction("alignHorizontallyCentered")}
+            {renderAction("alignRight")}
+            {renderAction("alignTop")}
+            {renderAction("alignVerticallyCentered")}
+            {renderAction("alignBottom")}
+          </div>
+        </fieldset>
+      )}
+
       {!isMobile && !isEditing && targetElements.length > 0 && (
         <fieldset>
           <legend>{t("labels.actions")}</legend>
           <div className="buttonList">
             {renderAction("duplicateSelection")}
             {renderAction("deleteSelectedElements")}
+            {renderAction("group")}
+            {renderAction("ungroup")}
           </div>
         </fieldset>
       )}
@@ -98,17 +126,20 @@ export const ShapesSwitcher = ({
   isLibraryOpen,
 }: {
   elementType: ExcalidrawElement["type"];
-  setAppState: (appState: Partial<AppState>) => void;
+  setAppState: React.Component<any, AppState>["setState"];
   isLibraryOpen: boolean;
 }) => (
   <>
     {SHAPES.map(({ value, icon, key }, index) => {
       const label = t(`toolBar.${value}`);
-      const shortcut = `${capitalizeString(key)} ${t("shortcutsDialog.or")} ${
-        index + 1
-      }`;
+      const letter = typeof key === "string" ? key : key[0];
+      const letterShortcut = /[a-z]/.test(letter) ? letter : `Shift+${letter}`;
+      const shortcut = `${capitalizeString(letterShortcut)} ${t(
+        "shortcutsDialog.or",
+      )} ${index + 1}`;
       return (
         <ToolButton
+          className="Shape"
           key={value}
           type="radio"
           icon={icon}
@@ -132,6 +163,7 @@ export const ShapesSwitcher = ({
       );
     })}
     <ToolButton
+      className="Shape"
       type="button"
       icon={LIBRARY_ICON}
       name="editor-library"

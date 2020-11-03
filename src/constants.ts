@@ -11,6 +11,8 @@ export const CURSOR_TYPE = {
   CROSSHAIR: "crosshair",
   GRABBING: "grabbing",
   POINTER: "pointer",
+  MOVE: "move",
+  AUTO: "",
 };
 export const POINTER_BUTTON = {
   MAIN: 0,
@@ -70,6 +72,8 @@ export const FONT_FAMILY = {
   3: "Cascadia",
 } as const;
 
+export const WINDOWS_EMOJI_FALLBACK_FONT = "Segoe UI Emoji";
+
 export const DEFAULT_FONT_SIZE = 20;
 export const DEFAULT_FONT_FAMILY: FontFamily = 1;
 export const DEFAULT_TEXT_ALIGN = "left";
@@ -80,3 +84,15 @@ export const CANVAS_ONLY_ACTIONS = ["selectAll"];
 export const GRID_SIZE = 20; // TODO make it configurable?
 
 export const LOCAL_STORAGE_KEY_COLLAB_FORCE_FLAG = "collabLinkForceLoadFlag";
+
+export const MIME_TYPES = {
+  excalidraw: "application/vnd.excalidraw+json",
+  excalidrawlib: "application/vnd.excalidrawlib+json",
+};
+
+export const STORAGE_KEYS = {
+  LOCAL_STORAGE_ELEMENTS: "excalidraw",
+  LOCAL_STORAGE_APP_STATE: "excalidraw-state",
+  LOCAL_STORAGE_COLLAB: "excalidraw-collab",
+  LOCAL_STORAGE_LIBRARY: "excalidraw-library",
+};
